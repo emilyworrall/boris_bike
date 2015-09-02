@@ -1,3 +1,6 @@
-require "/Users/alexlemons/Desktop/Makers/Week1/boris_bike/lib/docking_station1.rb"
+require "docking_station"
 describe DockingStation do
+  it "respond to release bike" do
+      expect(subject).to respond_to :release_bike
+  end
 end

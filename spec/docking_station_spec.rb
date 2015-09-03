@@ -1,26 +1,33 @@
-require "docking_station"
+require 'docking_station'
+
 
 describe DockingStation do
-  describe '#release_bike' do
-    it { is_expected.to respond_to(:release_bike) }
+    it { is_expected.to respond_to :release_bike }
 
-    it "returns a working bike when asked to #release_bike" do
-      subject.dock(Bike.new)
-      expect{subject.dock Bike.new}.to raise_error "Docking Station FULL"
-      expect(subject.release_bike).to be_a(Bike)
-      expect(subject.release_bike).to be_working
+    it 'releases a bike' do
+      subject.dock Bike.new
+      bike = subject.release_bike
+      expect(bike).to respond_to :working?
     end
 
-    it "raises an error when no bikes are available" do
-      expect {subject.release_bike}.to raise_error "No bikes available"
+    it  {is_expected.to respond_to(:dock).with(1).argument }
+
+      describe '#release_bike' do
+        it 'raises an error when there are no bikes available' do
+          expect { subject.release_bike }.to raise_error 'No bikes available'
+        
+      end
+      describe '#dock' do
+        it 'raises an error when full' do
+          subject.capacity.times { subject.dock(Bike.new) }
+          expect { subject.dock Bike.new }.to raise_error 'Docking station full'
+        end
+      end
+
+    it 'has a default capacity' do
+      expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
     end
 
 
+      end
   end
-
-
-  it "is expected to respond to the method dock" do
-    expect(subject).to respond_to(:dock).with(1).argument
-  end
-
-end
